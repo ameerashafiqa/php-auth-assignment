@@ -1,53 +1,37 @@
 <?php
-   if(isset($_POST['submit'])){
-        $d = file_get_contents("users.txt");
-        $data = explode("\n", $d);
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        foreach ($data as $row => $data) {
+require_once 'includes.php';
 
-            $row_user = explode('|', $data);
-            $users = @(strtolower($row_user[0]));
-            $pass = @trim(strtolower($row_user[1]), "\r");
+session_start();
 
-            if (strcmp($users,$username) === 0 && strcmp($pass,$password) === 0) {
-                echo '<script>alert("Success")</script>';
-                break;
-            }else{
-                echo '<script>alert("Failed")</script>';
-                break;
-        }
-        }
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    }
+    $login = (new Login())->login();
+    die;
+}
 ?>
-
-
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>e-KenderaanMDHT</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/styleee.css">
+    <title>Login</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-
-<style>
-  body {
-    background-image: url(images/d.jpeg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
-</style>
-
 <body>
-  <form class="box" action="" method="post">
-    <h1>Login</h1>
-    <input type="text" autocomplete="off" name="username" id="username" placeholder="Username">
-    <input type="password" name="password" id="password" placeholder="Password">
-    <input type="submit" name="submit" value="Login">
-  </form>
+<section class="loginform cf">
+    <form name="login" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" accept-charset="utf-8">
+        <ul>
+            <li>
+                <label for="usermail">Username</label>
+                <input type="username" name="username" placeholder="username" required>
+            </li>
+            <li>
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="password" required></li>
+            <li>
+                <input type="submit" value="Login">
+            </li>
+        </ul>
+    </form>
+</section>
 </body>
 </html>
